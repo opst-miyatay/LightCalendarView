@@ -265,13 +265,6 @@ class LightCalendarView(context: Context, attrs: AttributeSet? = null, defStyleA
             }.notifySettingsChanged()
         }
 
-    var fixToday: Boolean
-        get() = settings.fixToday
-        set(value) {
-            settings.apply {
-                fixToday = value
-            }.notifySettingsChanged()
-        }
     /**
      * Sets the locale to use in LightCalendarView.
      * Set null to use Locale.getDefault()

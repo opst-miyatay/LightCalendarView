@@ -18,7 +18,7 @@ package jp.co.recruit_mp.android.lightcalendarview
 
 import android.content.Context
 import android.support.v4.view.ViewCompat
-import android.text.format.DateUtils
+import android.util.Log
 import java.util.*
 
 /**
@@ -140,11 +140,8 @@ class DayLayout(context: Context, settings: CalendarSettings, var month: Date) :
 
     private fun setSelectedDay(view: DayView?) {
         selectedDayView?.apply {
-            if (!settings.fixToday || !DateUtils.isToday(selectedDayView?.date!!.time)) {
-                // 今日の場合は常に丸を表示させる
-                isSelected = false
-                updateState()
-            }
+            isSelected = false
+            updateState()
         }
         selectedDayView = view?.apply {
             isSelected = true
