@@ -37,6 +37,9 @@ class CalendarSettings(private val context: Context) : ObservableSettings() {
     var locale: Locale = Locale.getDefault()
     var displayOutside: Boolean = false
 
+    // 当日を常に強調表示
+    var fixToday: Boolean = false
+
     // settings for DayLayout and WeekDayLayout: first day of the week
     var firstDayOfWeek: WeekDay = WeekDay.SUNDAY
     val dayOfWeekOffset: Int
