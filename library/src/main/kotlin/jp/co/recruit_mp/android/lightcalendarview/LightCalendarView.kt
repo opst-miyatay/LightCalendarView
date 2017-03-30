@@ -80,6 +80,7 @@ class LightCalendarView(context: Context, attrs: AttributeSet? = null, defStyleA
                 R.styleable.LightCalendarView_lcv_accentColor -> setAccentColor(a.getColorStateList(attr))
                 R.styleable.LightCalendarView_lcv_firstDayOfWeek -> setFirstDayOfWeek(a.getInt(attr, 0))
                 R.styleable.LightCalendarView_lcv_outsideTextColor -> setOutsideTextColor(a.getColor(attr, 0))
+                R.styleable.LightCalendarView_lcv_holidayTextColor -> setHolidayTextColor(a.getColor(attr, 0))
             }
         }
         a.recycle()
@@ -184,6 +185,14 @@ class LightCalendarView(context: Context, attrs: AttributeSet? = null, defStyleA
     fun setOutsideTextColor(color: Int) {
         settings.dayView.apply {
             setOutsideTextColorStateList(color)
+        }.notifySettingsChanged()
+    }
+    /**
+     * 祝日の文字色を設定する
+     */
+    fun setHolidayTextColor(color: Int) {
+        settings.dayView.apply {
+            setHolidayTextColorStateList(color)
         }.notifySettingsChanged()
     }
 
