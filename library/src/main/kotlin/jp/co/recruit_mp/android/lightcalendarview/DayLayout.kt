@@ -33,7 +33,12 @@ class DayLayout(context: Context, settings: CalendarSettings, var month: Date) :
     }
 
     override val rowNum: Int
-        get() = DEFAULT_WEEKS
+        get() {
+            when (settings.calendarViewType) {
+                ViewType.MONTH -> return DEFAULT_WEEKS
+                ViewType.WEEK -> return 1
+            }
+        }
     override val colNum: Int
         get() = DEFAULT_DAYS_IN_WEEK
 
@@ -81,7 +86,9 @@ class DayLayout(context: Context, settings: CalendarSettings, var month: Date) :
             // calculate the date of top-left cell
             val cal: Calendar = CalendarKt.getInstance(settings).apply {
                 time = month
-                set(Calendar.DAY_OF_MONTH, 1)
+                when (settings.calendarViewType) {
+                    ViewType.MONTH -> set(Calendar.DAY_OF_MONTH, 1)
+                }
                 add(Calendar.DAY_OF_YEAR, (-this[Calendar.DAY_OF_WEEK] + dayOfWeekOffset + 1).let { offset ->
                     if (offset > 0) (offset - WeekDay.values().size) else offset
                 })

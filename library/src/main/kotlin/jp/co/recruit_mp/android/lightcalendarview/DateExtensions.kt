@@ -40,6 +40,13 @@ internal fun Date.monthsAfter(settings: CalendarSettings, date: Date): Long {
     return ((thisCal[Calendar.YEAR] - thatCal[Calendar.YEAR]) * Month.values().size + (thisCal[Calendar.MONTH] - thatCal[Calendar.MONTH])).toLong()
 }
 
+/** Counts amount of weeks */
+internal fun Date.weeksAfter(settings: CalendarSettings, date: Date): Long {
+    val thisCal = CalendarKt.getInstance(settings).apply { time = this@weeksAfter }
+    val thatCal = CalendarKt.getInstance(settings).apply { time = date }
+    return ((thisCal.timeInMillis - thatCal.timeInMillis) /(7*24*60*60*1000)+1)
+}
+
 /** 日付が一致する {@link Date} がリストに含まれているかどうかを返す */
 internal fun List<Date>.containsSameDay(settings: CalendarSettings, date: Date): Boolean = any { it.isSameDay(settings, date) }
 

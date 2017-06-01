@@ -30,7 +30,8 @@
                 app:lcv_accentColor="@color/calendar_accent"
                 app:lcv_outsideTextColor="#ccc"
                 app:lcv_holidayTextColor="#CD0303"
-                app:lcv_firstDayOfWeek="@integer/lcv_monday"/>
+                app:lcv_firstDayOfWeek="@integer/lcv_monday"
+                app:lcv_calendarViewType="week"/>
 
         </LinearLayout>
     </ScrollView>

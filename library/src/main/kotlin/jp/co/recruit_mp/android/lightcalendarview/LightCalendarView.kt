@@ -81,6 +81,7 @@ class LightCalendarView(context: Context, attrs: AttributeSet? = null, defStyleA
                 R.styleable.LightCalendarView_lcv_firstDayOfWeek -> setFirstDayOfWeek(a.getInt(attr, 0))
                 R.styleable.LightCalendarView_lcv_outsideTextColor -> setOutsideTextColor(a.getColor(attr, 0))
                 R.styleable.LightCalendarView_lcv_holidayTextColor -> setHolidayTextColor(a.getColor(attr, 0))
+                R.styleable.LightCalendarView_lcv_calendarViewType -> setCalendarViewType(a.getInt(attr, 0))
             }
         }
         a.recycle()
@@ -110,12 +111,22 @@ class LightCalendarView(context: Context, attrs: AttributeSet? = null, defStyleA
     /**
      * {@link ViewPager} のページに対応する月を返す
      */
-    fun getDateForPosition(position: Int): Date = monthFrom.add(settings, Calendar.MONTH, position)
+    fun getDateForPosition(position: Int): Date {
+        when (calendarViewType) {
+            ViewType.MONTH -> return monthFrom.add(settings, Calendar.MONTH, position)
+            ViewType.WEEK -> return monthFrom.add(settings, Calendar.HOUR, position*7*24)
+        }
+    }
 
     /**
      * 月に対応する {@link ViewPager} のページを返す
      */
-    fun getPositionForDate(date: Date): Int = date.monthsAfter(settings, monthFrom).toInt()
+    fun getPositionForDate(date: Date): Int {
+        when (calendarViewType) {
+            ViewType.MONTH -> return date.monthsAfter(settings, monthFrom).toInt()
+            ViewType.WEEK -> return date.weeksAfter(settings, monthFrom).toInt()
+        }
+    }
 
     /**
      * {@link ViewPager} の特定のページにある {@link MonthView} を返す
@@ -233,6 +244,21 @@ class LightCalendarView(context: Context, attrs: AttributeSet? = null, defStyleA
     }
 
     /**
+     * Set calendar type (Month, Week, ...)
+     */
+    var calendarViewType: ViewType
+        get() = settings.calendarViewType
+        set(value) {
+            settings.calendarViewType = value
+            settings.notifySettingsChanged()
+            adapter?.notifyDataSetChanged()
+        }
+
+    private fun setCalendarViewType(n: Int) {
+        calendarViewType = ViewType.fromOrdinal(n)
+    }
+
+    /**
      * First day of the week (e.g. Sunday, Monday, ...)
      */
     var firstDayOfWeek: WeekDay
@@ -305,6 +331,11 @@ class LightCalendarView(context: Context, attrs: AttributeSet? = null, defStyleA
 
         override fun isViewFromObject(view: View?, obj: Any?): Boolean = view === obj
 
-        override fun getCount(): Int = Math.max(0, monthTo.monthsAfter(settings, monthFrom).toInt() + 1)
+        override fun getCount(): Int {
+            when (calendarViewType) {
+                ViewType.MONTH ->  return Math.max(0, monthTo.monthsAfter(settings, monthFrom).toInt() + 1)
+                ViewType.WEEK ->  return Math.max(0, monthTo.weeksAfter(settings, monthFrom).toInt() + 1)
+            }
+        }
     }
 }
