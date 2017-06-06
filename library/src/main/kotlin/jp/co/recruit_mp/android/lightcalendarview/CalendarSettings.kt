@@ -45,6 +45,9 @@ class CalendarSettings(private val context: Context) : ObservableSettings() {
     val dayOfWeekOffset: Int
         get() = WeekDay.values().indexOf(firstDayOfWeek)
 
+    // settings for calendar's ViewType
+    var calendarViewType: ViewType = ViewType.MONTH
+
     /**
      * Settings for {@link jp.co.recruit_mp.android.lightcalendarview.WeekDayView}
      */
