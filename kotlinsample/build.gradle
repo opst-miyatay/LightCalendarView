@@ -33,5 +33,6 @@ dependencies {
     compile project(":library")
 }
 repositories {
-    mavenCentral()
+    google()
+    jcenter()
 }

@@ -34,7 +34,8 @@ dependencies {
 }
 
 repositories {
-    mavenCentral()
+    google()
+    jcenter()
 }
 
 //apply from: 'mvn-push.gradle'
@@ -42,7 +43,6 @@ repositories {
 def repo = new File(rootDir, "docs/repository")
 
 apply plugin: 'maven'
-
 
 uploadArchives {
     repositories {
